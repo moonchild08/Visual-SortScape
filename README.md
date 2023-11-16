@@ -18,6 +18,11 @@ The Output of the Program:
 
 
 
+
+
+
+
+
 <img width="960" alt="Screenshot 2023-11-16 171044" src="https://github.com/moonchild08/Visual-SortScape/assets/120168640/c7eb5eb3-dd0b-43fe-a5f6-a2b2aba2173d">
 
 
