@@ -23,5 +23,5 @@ The Output of the Program:
 
 
 
-#The Language and the tools used are: 
+The Language and the tools used are:
 C++ programming Language, SDL2 Library and Visual Studio 2022 (IDE)
