@@ -18,11 +18,10 @@ The Output of the Program:
 
 
 
-
-
-
-
-
 <img width="960" alt="Screenshot 2023-11-16 171044" src="https://github.com/moonchild08/Visual-SortScape/assets/120168640/c7eb5eb3-dd0b-43fe-a5f6-a2b2aba2173d">
 
 
+
+
+#The Language and the tools used are: 
+C++ programming Language, SDL2 Library and Visual Studio 2022 (IDE)
