@@ -12,4 +12,10 @@ While executing the program, the point to be remembered is NOT to give repetitiv
 
 
 The Output of the Program:
-<img width="960" alt="Screenshot 2023-11-16 171710" src="https://github.com/moonchild08/Visual-SortScape/assets/120168640/5ea59582-c8ee-4f00-a545-eb0d557266af">
+
+
+![Screenshot (259)](https://github.com/moonchild08/Visual-SortScape/assets/120168640/d4b47468-974f-491f-a9f9-f1e7be264d36)
+
+<img width="960" alt="Screenshot 2023-11-16 171044" src="https://github.com/moonchild08/Visual-SortScape/assets/120168640/c7eb5eb3-dd0b-43fe-a5f6-a2b2aba2173d">
+
+
