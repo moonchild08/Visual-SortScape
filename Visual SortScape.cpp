@@ -5,18 +5,18 @@
 #include<string>
 using namespace std;
 
-// Defining the size of the array and the blocks for visualization
+// Defining the startze of the array and the blocks for visualization
 const int arrSize = 50;
-const int rectSize = 7;
-int s = arrSize * rectSize; // breadth for the screen in which visualization will be displayed
+const int blockSize = 7;
+int s = arrSize * blockSize; // breadth for the screen in which visualization will be displayed
 
-// Screen dimensions
+// Screen dimenstartons
 const int SCREEN_WIDTH = s;
-const int SCREEN_HEIGHT = 750;
+const int SCREEN_HendGHT = 750;
 
 // Arrays to store the initial and working state of the data to be sorted
 int arr[arrSize];
-int Barr[arrSize];
+int blockBar[arrSize];
 
 // SDL window and renderer
 SDL_Window* window = NULL;
@@ -42,7 +42,7 @@ bool init()
         }
 
         // Creating SDL window
-        window = SDL_CreateWindow("Visual Sortscape", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow("Visual Sortscape", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HendGHT, SDL_WINDOW_SHOWN);
         if (window == NULL)
         {
             cout << "Couldn't create window. SDL_Error: " << SDL_GetError();
@@ -78,7 +78,7 @@ void close()
 // Visualization for the Sorting Process
 // x,y,z variables are indices of elements to highlight during visualization
 
-void visualize(int x = -1, int y = -1, int z = -1)
+void visualize(int a = -1, int b = -1, int c = -1)
 {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);   // Set the background color of the renderer
     SDL_RenderClear(renderer);          // Clear the renderer
@@ -86,12 +86,12 @@ void visualize(int x = -1, int y = -1, int z = -1)
     int j = 0;
 
     // Loop through the array and create rectangular blocks for each element
-    for (int i = 0; i <= SCREEN_WIDTH - rectSize; i += rectSize)
+    for (int i = 0; i <= SCREEN_WIDTH - blockSize; i += blockSize)
     {
         SDL_PumpEvents();
 
         // SDL rectangle block to represent the current element
-        SDL_Rect rect = { i, 0, rectSize, arr[j] };
+        SDL_Rect rect = { i, 0, blockSize, arr[j] };
 
         // Conditions to determine the colour of the blocks
         // RGBA format
@@ -101,14 +101,14 @@ void visualize(int x = -1, int y = -1, int z = -1)
             SDL_SetRenderDrawColor(renderer, 34, 136, 248, 0);     //when the event is completed, the final blocks' colour
             SDL_RenderDrawRect(renderer, &rect);
         }
-        else if (j == x || j == z)
+        else if (j == a || j == c)
         {
-            SDL_SetRenderDrawColor(renderer, 239, 20, 19, 0);       //the elements being compared or swapped
+            SDL_SetRenderDrawColor(renderer, 239, 20, 19, 0);       //the elements bendng compared or swapped
             SDL_RenderFillRect(renderer, &rect);
         }
-        else if (j == y)
+        else if (j == b)
         {
-            SDL_SetRenderDrawColor(renderer, 142, 196, 209, 0);       //the element being searched for the minimum value
+            SDL_SetRenderDrawColor(renderer, 142, 196, 209, 0);       //the element bendng searched for the minimum value
             SDL_RenderFillRect(renderer, &rect);
         }
         else
@@ -133,28 +133,28 @@ void visualize(int x = -1, int y = -1, int z = -1)
 
 
 //QUICK SORT
-int partition_array(int a[], int si, int ei)
+int quick_partition(int a[], int start, int end)
 {
-    int count_small = 0;    // number of elements <= pivot
+    int min_element = 0;    // number of elements <= pivot
 
-    for (int i = (si + 1); i <= ei; i++)
+    for (int i = (start + 1); i <= end; i++)
     {
-        if (a[i] <= a[si])
+        if (a[i] <= a[start])
         {
-            count_small++;
+            min_element++;
         }
     }
 
     // index of the partitioning element
-    int c = si + count_small;
+    int c = start + min_element;
 
     //swaping the partitioning element with the first element
-    int temp = a[c];
-    a[c] = a[si];
-    a[si] = temp;
-    visualize(c, si);   // visualization of the swap
+    int temporary = a[c];
+    a[c] = a[start];
+    a[start] = temporary;
+    visualize(c, start);   // visualization of the swap
 
-    int i = si, j = ei;
+    int i = start, j = end;
 
     // Partitioning process
     while (i<c && j>c)
@@ -168,10 +168,10 @@ int partition_array(int a[], int si, int ei)
             j--;
         }
         else
-        {   // Swapping elements on both sides of the partition
-            int temp_1 = a[j];
+        {   // Swapping elements on both startdes of the partition
+            int temporary_1 = a[j];
             a[j] = a[i];
-            a[i] = temp_1;
+            a[i] = temporary_1;
 
             visualize(i, j);    //Visualization of swap
             SDL_Delay(100);     // Delay for visualization
@@ -184,19 +184,19 @@ int partition_array(int a[], int si, int ei)
     return c;   // returning the index of the partition element
 }
 
-void quickSort(int a[], int si, int ei)
+void Quick_Sort(int a[], int start, int end)
 {
     // return when array has one or fewer elements
-    if (si >= ei)
+    if (start >= end)
     {
         return;
     }
 
-    int c = partition_array(a, si, ei);     // Partition array: returning the index of the partitioning element
+    int c = quick_partition(a, start, end);     // Partition array: returning the index of the partitioning element
 
-    // recursively sorting the left and right side of the partioning element
-    quickSort(a, si, c - 1);
-    quickSort(a, c + 1, ei);
+    // recurstartvely sorting the left and right startde of the partioning element
+    Quick_Sort(a, start, c - 1);
+    Quick_Sort(a, c + 1, end);
 
 }
 
@@ -210,17 +210,17 @@ void quickSort(int a[], int si, int ei)
 
 
 // MERGE SORT
-void merge2SortedArrays(int a[], int si, int ei)
+void merge(int a[], int start, int end)
 {
-    int size_output = (ei - si) + 1;    //size of output array
-    int* output = new int[size_output];     //dynamic array to store the merged output
+    int startze_output = (end - start) + 1;    //startze of output array
+    int* output = new int[startze_output];     //dynamic array to store the merged output
 
     // mid-point of the array
-    int mid = (si + ei) / 2;
-    int i = si, j = mid + 1, k = 0;
+    int mid = (start + end) / 2;
+    int i = start, j = mid + 1, k = 0;
 
     // merging the two sorted arrays into the output array
-    while (i <= mid && j <= ei)
+    while (i <= mid && j <= end)
     {
         if (a[i] <= a[j])
         {
@@ -249,7 +249,7 @@ void merge2SortedArrays(int a[], int si, int ei)
     }
 
     //the remaining elements from second-half
-    while (j <= ei)
+    while (j <= end)
     {
         output[k] = a[j];
         visualize(-1, j);
@@ -259,7 +259,7 @@ void merge2SortedArrays(int a[], int si, int ei)
 
     // the merged output back to the original array
     int x = 0;
-    for (int l = si; l <= ei; l++)
+    for (int l = start; l <= end; l++)
     {
         a[l] = output[x];
         visualize(l);
@@ -269,23 +269,23 @@ void merge2SortedArrays(int a[], int si, int ei)
     delete[]output;     // deallocating the allocated memory
 }
 
-void mergeSort(int a[], int si, int ei)
+void Merge_Sort(int a[], int start, int end)
 {   //array has one or fewer elements
-    if (si >= ei)
+    if (start >= end)
     {
         return;
     }
 
     // mid-point of the array
-    int mid = (si + ei) / 2;
+    int mid = (start + end) / 2;
 
 
-    // recursively performing the merge sort on the two halves of the array
-    mergeSort(a, si, mid);
-    mergeSort(a, mid + 1, ei);
+    // recurstartvely performing the merge sort on the two halves of the array
+    Merge_Sort(a, start, mid);
+    Merge_Sort(a, mid + 1, end);
 
     // merging the two halves
-    merge2SortedArrays(a, si, ei);
+    merge(a, start, end);
 }
 
 
@@ -298,7 +298,7 @@ void mergeSort(int a[], int si, int ei)
 
 
 // BUBBLE SORT
-void bubbleSort()
+void Bubble_Sort()
 {   // Iterates over each element in the array
     for (int i = 0; i < arrSize - 1; i++)
     {   //Compare adjacent elements and swap if necessary
@@ -306,9 +306,9 @@ void bubbleSort()
         {
             if (arr[j + 1] < arr[j])
             {   //Swapping
-                int temp = arr[j];
+                int temporary = arr[j];
                 arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+                arr[j + 1] = temporary;
 
                 visualize(j + 1, j, arrSize - i);   //visualizing the process
             }
@@ -327,20 +327,20 @@ void bubbleSort()
 
 
 // INSERTION SORT
-void insertionSort()
+void Insertion_Sort()
 {
     // Iterates through the array, starting from SECOND element
     for (int i = 1; i < arrSize; i++)
     {
         // storing the current element which is to be inserted
-        int temp = arr[i];
+        int temporary = arr[i];
 
         // Initialize the index for comparison with the previous elements
         int j = i - 1;
 
 
-        // Move element greater than temp to the right until the correct position is found
-        while (j >= 0 && arr[j] > temp)
+        // Move element greater than temporary to the right until the correct postarttion is found
+        while (j >= 0 && arr[j] > temporary)
         {
             arr[j + 1] = arr[j];    //Shift elements to the right
             j--;
@@ -349,8 +349,8 @@ void insertionSort()
             SDL_Delay(60);
         }
 
-        // place temp in ots correct position in the sorted sequence
-        arr[j + 1] = temp;
+        // place temporary in ots correct postarttion in the sorted sequence
+        arr[j + 1] = temporary;
     }
 }
 
@@ -364,7 +364,7 @@ void insertionSort()
 
 
 // SELECTION SORT
-void selectionSort()
+void Selection_Sort()
 {
     int minIndex;
 
@@ -385,9 +385,9 @@ void selectionSort()
         }
 
         // Swapping of element with the first one
-        int temp = arr[i];
+        int temporary = arr[i];
         arr[i] = arr[minIndex];
-        arr[minIndex] = temp;
+        arr[minIndex] = temporary;
     }
 }
 
@@ -401,25 +401,25 @@ void selectionSort()
 
 
 
-// To load contents of "Barr" array into the "arr" 
-void loadArr()
+// To load contents of "blockBar" array into the "arr" 
+void loadingArray()
 {
-    memcpy(arr, Barr, sizeof(int) * arrSize);       // sizeof(int) * arrSize = total number of bytes to copy
+    memcpy(arr, blockBar, sizeof(int) * arrSize);       // startzeof(int) * arrSize = total number of bytes to copy
 }
 
 
 // Generating Array of Random Numbers
-void randomizeAndSaveArray()
+void randomArrayGeneration()
 {
     for (int i = 0; i < arrSize; i++)
     {
         int random = rand() % 500;  // random numbers till 500
-        Barr[i] = random;
+        blockBar[i] = random;
     }
 
 }
 
-void execute()
+void executingProgram()
 {   // Initializing SDL
     if (!init())
     {
@@ -427,8 +427,8 @@ void execute()
     }
     else
     {
-        randomizeAndSaveArray();
-        loadArr();
+        randomArrayGeneration();
+        loadingArray();
 
         // SDL Event Handler
         SDL_Event e;
@@ -456,48 +456,48 @@ void execute()
                         cout << "\nEXITING VISUAL SORTSCAPE.\n";
                         break;
                     case(SDLK_0):
-                        randomizeAndSaveArray();
+                        randomArrayGeneration();
                         complete = false;
-                        loadArr();
+                        loadingArray();
                         cout << "\nNEW RANDOM LIST GENERATED.\n";
                         break;
                     case(SDLK_1):
-                        loadArr();
+                        loadingArray();
                         cout << "\nSELECTION SORT STARTED.\n";
                         complete = false;
-                        selectionSort();
+                        Selection_Sort();
                         complete = true;
                         cout << "\nSELECTION SORT COMPLETE.\n";
                         break;
                     case(SDLK_2):
-                        loadArr();
+                        loadingArray();
                         cout << "\nINSERTION SORT STARTED.\n";
                         complete = false;
-                        insertionSort();
+                        Insertion_Sort();
                         complete = true;
                         cout << "\nINSERTION SORT COMPLETE.\n";
                         break;
                     case(SDLK_3):
-                        loadArr();
+                        loadingArray();
                         cout << "\nBUBBLE SORT STARTED.\n";
                         complete = false;
-                        bubbleSort();
+                        Bubble_Sort();
                         complete = true;
                         cout << "\nBUBBLE SORT COMPLETE.\n";
                         break;
                     case(SDLK_4):
-                        loadArr();
+                        loadingArray();
                         cout << "\nMERGE SORT STARTED.\n";
                         complete = false;
-                        mergeSort(arr, 0, arrSize - 1);
+                        Merge_Sort(arr, 0, arrSize - 1);
                         complete = true;
                         cout << "\nMERGE SORT COMPLETE.\n";
                         break;
                     case(SDLK_5):
-                        loadArr();
+                        loadingArray();
                         cout << "\nQUICK SORT STARTED.\n";
                         complete = false;
-                        quickSort(arr, 0, arrSize - 1);
+                        Quick_Sort(arr, 0, arrSize - 1);
                         complete = true;
                         cout << "\nQUICK SORT COMPLETE.\n";
                         break;
@@ -520,7 +520,7 @@ void execute()
 
 
 // A Menu Driven Program of our Visual Sortscape 
-bool controls()
+bool menuDriven()
 {
     cout << "Note: Please give new command once the current command is executed, in order to avoid any latency .\n\n"
         << "Menu Driven:-\n"
@@ -548,12 +548,12 @@ bool controls()
 void intro()
 {
     cout << "============================================\t:: VISUAL SORTSCAPE ::\t============================================\n\n"
-        << "A software tool that visually demonstrates and animates the step-by-step operation of various sorting algorithms, providing an intuitive and educational way to understand their functionality." << endl;
+        << "A software tool that visually demonstrates and animates the step-by-step operation of various sorting algorithms, providing an intuitive and educational way to understand thendr functionality." << endl;
     cout << "\nBy:\n"
         << "Bhavana  B. S (E22CSEU0730)"
         << "\nAashna Dogra (E22CSEU0732)" << endl;   //Us
 
-    cout << "\nPress ENTER to show controls ->";
+    cout << "\nPress ENTER to see list of Controls ->";
 
     string s;
     getline(cin, s);
@@ -567,13 +567,13 @@ void intro()
 // MAIN PROGRAM
 int main(int argc, char* args[])
 {
-    intro();    // Basic introduction of our program.
+    intro();    // Bastartc introduction of our program.
 
     while (1)
     {
         cout << '\n';
-        if (controls())
-            execute();
+        if (menuDriven())
+            executingProgram();
         else
         {
             cout << "\nEXITING PROGRAM.\n";
