@@ -8,11 +8,10 @@ using namespace std;
 // Defining the startze of the array and the blocks for visualization
 const int arrSize = 50;
 const int blockSize = 7;
-int s = arrSize * blockSize; // breadth for the screen in which visualization will be displayed
 
 // Screen dimenstartons
-const int SCREEN_WIDTH = s;
-const int SCREEN_HendGHT = 750;
+const int screen_breadth = 350;
+const int screen_length = 550;
 
 // Arrays to store the initial and working state of the data to be sorted
 int arr[arrSize];
@@ -31,21 +30,21 @@ bool init()
     bool success = true;
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        cout << "Couldn't initialize SDL. SDL_Error: " << SDL_GetError();
+        cout << "SDL Error: " << SDL_GetError();
         success = false;
     }
     else
     {   // Set texture filtering hint
         if (!(SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")))
         {
-            cout << "Warning: Linear Texture Filtering not enabled.\n";
+            cout << "Enble the Linear Texture.\n";
         }
 
         // Creating SDL window
-        window = SDL_CreateWindow("Visual Sortscape", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HendGHT, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow("Visual Sortscape", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_breadth, screen_length, SDL_WINDOW_SHOWN);
         if (window == NULL)
         {
-            cout << "Couldn't create window. SDL_Error: " << SDL_GetError();
+            cout << "SDL Error: " << SDL_GetError();
             success = false;
         }
         else
@@ -53,7 +52,7 @@ bool init()
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
             if (renderer == NULL)
             {
-                cout << "Couldn't create renderer. SDL_Error: " << SDL_GetError();
+                cout << "SDL Error: " << SDL_GetError();
                 success = false;
             }
         }
@@ -76,7 +75,7 @@ void close()
 
 
 // Visualization for the Sorting Process
-// x,y,z variables are indices of elements to highlight during visualization
+// a,b,c variables are indices of elements to highlight during visualization
 
 void visualize(int a = -1, int b = -1, int c = -1)
 {
@@ -86,7 +85,7 @@ void visualize(int a = -1, int b = -1, int c = -1)
     int j = 0;
 
     // Loop through the array and create rectangular blocks for each element
-    for (int i = 0; i <= SCREEN_WIDTH - blockSize; i += blockSize)
+    for (int i = 0; i <= screen_breadth - blockSize; i += blockSize)
     {
         SDL_PumpEvents();
 
