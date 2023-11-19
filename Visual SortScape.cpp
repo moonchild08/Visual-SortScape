@@ -545,7 +545,7 @@ bool menuDriven()
 
 
 // Introduction
-void intro()
+void introduction()
 {
     cout << "============================================\t:: VISUAL SORTSCAPE ::\t============================================\n\n"
         << "A software tool that visually demonstrates and animates the step-by-step operation of various sorting algorithms, providing an intuitive and educational way to understand thendr functionality." << endl;
@@ -567,7 +567,7 @@ void intro()
 // MAIN PROGRAM
 int main(int argc, char* args[])
 {
-    intro();    // Bastartc introduction of our program.
+    introduction();    // Bastartc introduction of our program.
 
     while (1)
     {
